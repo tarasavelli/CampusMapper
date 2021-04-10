@@ -3,7 +3,6 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 
 /**
  * This datawrangler class represents the data wrangler class which initializes the variable
