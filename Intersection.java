@@ -20,25 +20,31 @@ import java.util.ArrayList;
 
 public class Intersection {
   private String name;
+  boolean isValid;
   private ArrayList<String> pointOfInterests;
   private ArrayList<Connection> connections; // Each intersection can have up to four connections
 
   /**
    * Default constructor that initializes all intersection fields.
    */
-  public Intersection() {
-    name = null;
+  public Intersection(String name) {
+    this.name = name;
+    isValid = true;
     pointOfInterests = new ArrayList<String>();
     connections = new ArrayList<Connection>();
   }
 
   /**
-   * Sets the name of this intersection.
+   * Sets the status of this intersection. If this intersection is to be used in calculating a graph
+   * route, set the status to "true". If this intersection is to not be used in calculating a graph
+   * route, set the status to "false".
    * 
-   * @param name of intersection
+   * NOTE: All intersections are TRUE (valid) upon initialization.
+   * 
+   * @param iValid the status of this intersection
    */
-  public void setName(String name) {
-    this.name = name;
+  public void setStatus(boolean isValid) {
+    this.isValid = isValid;
   }
 
   /**

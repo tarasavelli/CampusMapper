@@ -7,6 +7,7 @@ public class TestDataWrangler {
 
     for (Intersection i : allInter) {
       System.out.println("Name: " + i.getName() + " Connections: " + i.getConnections().toString());
+      i.setStatus(false);
     }
 
     

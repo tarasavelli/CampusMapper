@@ -54,9 +54,8 @@ public class DataWrangler {
       // Read entire file. Intersection name is always first element in the line. Any following
       // elements of the intersection name are the point of interests for that intersection.
       while (scnr.hasNextLine()) {
-        Intersection intersection = new Intersection();
         String[] line = scnr.nextLine().split(",");
-        intersection.setName(line[0]);
+        Intersection intersection = new Intersection(line[0]);
 
         for (int i = 1; i < line.length; i++)
           intersection.addPointOfInterest(line[i]);
