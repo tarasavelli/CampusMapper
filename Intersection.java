@@ -1,3 +1,12 @@
+// --== CS400 File Header Information ==--
+// Name: Anthony Reis
+// Email: atreis@wisc.edu
+// Team: Red
+// Role: Data Wrangler
+// TA: Mu Cai
+// Lecturer: Gary Dahl
+// Notes to Grader: N/A
+
 import java.util.ArrayList;
 
 /**
@@ -5,7 +14,7 @@ import java.util.ArrayList;
  * street intersection (i.e. street name, the point of interests close to the intersection, and the
  * connections or other intersections that this intersection connects to.
  * 
- * @author reistonyt
+ * @author Anthony Reis
  *
  */
 
@@ -47,8 +56,8 @@ public class Intersection {
    * 
    * @param connection
    */
-  public void addConnection(String name, Integer distance) {
-    connections.add(new Connection(name, distance));
+  public void addConnection(Intersection intersection, Integer distance) {
+    connections.add(new Connection(intersection, distance));
   }
 
   /**

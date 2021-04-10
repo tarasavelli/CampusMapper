@@ -1,3 +1,12 @@
+// --== CS400 File Header Information ==--
+// Name: Anthony Reis
+// Email: atreis@wisc.edu
+// Team: Red
+// Role: Data Wrangler
+// TA: Mu Cai
+// Lecturer: Gary Dahl
+// Notes to Grader: N/A
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -6,7 +15,7 @@ import java.util.Scanner;
 
 /**
  * This datawrangler class represents the data wrangler class which initializes the variable
- * "allIntersections" by reading two files, one called PointOfInterests.csv and one called
+ * "intersections" by reading two files, one called PointOfInterests.csv and one called
  * Distances.csv. PointOfInterests.csv contains each intersection of the mapped area and all of the
  * point of interests associated with a particular intersection. Distances.csv contains a table of
  * the distances between each intersection.
@@ -14,7 +23,7 @@ import java.util.Scanner;
  * This class utilizes the two sources .csv files listed above to initialize allIntersections and
  * pass that to the backend developer.
  * 
- * @author reistonyt
+ * @author Anthony Reis
  *
  */
 
@@ -69,20 +78,28 @@ public class DataWrangler {
    */
   public void initializeConnections() {
     Scanner scnr = null;
-    
+
     try {
       File distances = new File("Distances.csv");
       scnr = new Scanner(distances);
       scnr.nextLine();
-      
+
       while (scnr.hasNextLine()) {
         String[] line = scnr.nextLine().split(",", -1);
         String currentIntersection = line[0];
         line = Arrays.copyOfRange(line, 1, line.length);
-        
-        for (int i = 0; i < line.length; i ++) {
+        Intersection currentIntersectionObj = null;
+
+        for (Intersection intersection : intersections) {
+          if (intersection.getName().equals(currentIntersection)) {
+            currentIntersectionObj = intersection;
+          }
+        }
+
+        for (int i = 0; i < line.length; i++) {
           if (!line[i].isBlank()) {
-            intersections.get(i).addConnection(currentIntersection, Integer.parseInt(line[i]));
+            currentIntersectionObj.addConnection(intersections.get(i), Integer.parseInt(line[i]));
+
           }
         }
       }
