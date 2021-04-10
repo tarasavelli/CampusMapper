@@ -44,7 +44,7 @@ public class BackendDummy {
      * @param end Ending intersection
      * @return Formatted string including distance and path between the two
      */
-    public String getRoute(String start, String end) { return null; }
+    public Path getRoute(String start, String end) { return null; }
 
     /**
      * Takes three intersection points as parameters and gives the shortest path between the three. First stopping
@@ -54,7 +54,7 @@ public class BackendDummy {
      * @param second Second intersection to visit
      * @return Formatted string including distance and path between the three
      */
-    public String getRoute(String start, String first, String second) { return null; }
+    public ArrayList<Path> getRoute(String start, String first, String second) { return null; }
 
     /**
      * Makes an intersection closed/open based upon previous state
@@ -65,16 +65,8 @@ public class BackendDummy {
     public boolean toggleIntersection(String intersection) { return false; }
 
     /**
-     * Reports significant land marks between two points
-     * @param start Starting intersection
-     * @param end Ending intersection
-     * @return Formatted string of points of interest
-     */
-    public String getPoints(String start, String end) { return null; }
-
-    /**
      * Reports all significant land marks and all intersections
      * @return Formatted string of points of interest and intersections
      */
-    public String getPoints() { return null; }
+    public Path getPoints() { return null; }
 }
