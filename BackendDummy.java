@@ -70,11 +70,11 @@ public class BackendDummy {
      * @param end Ending intersection
      * @return Formatted string of points of interest
      */
-    public String reportPoints(String start, String end) { return null; }
+    public String getPoints(String start, String end) { return null; }
 
     /**
      * Reports all significant land marks and all intersections
      * @return Formatted string of points of interest and intersections
      */
-    public String reportPoints() { return null; }
+    public String getPoints() { return null; }
 }
