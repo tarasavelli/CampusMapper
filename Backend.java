@@ -94,6 +94,7 @@ public class Backend {
         // Find paths
         routes.add(getRoute(start, first));
         routes.add(getRoute(first, second));
+        return routes;
     }
 
     /**
