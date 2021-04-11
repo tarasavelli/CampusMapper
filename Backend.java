@@ -22,18 +22,30 @@ public class Backend {
         // Initialize private fields
         data = new DataWrangler();
         intersections = data.getAllIntersections();
-        map = new CS400Graph<>();
+        updateMap(); // Initialize and load data into map
+    }
 
+    /**
+     * Private helper method. Clears map but initializing with a new graph object. Then gets the list of intersections
+     * and stores each intersection that is valid along with their connections.
+     */
+    private void updateMap() {
+        map = new CS400Graph<>(); // Create new map
         // Store data within map
         for(int i = 0; i < intersections.size(); i++) {
             // Insert intersection as vertex
             Intersection cIntersection = intersections.get(i);
-            map.insertVertex(cIntersection);
-            // Get current connections & add edges
-            ArrayList<Connection> cConnections = cIntersection.getConnections();
-            for(int e = 0; e < cConnections.size(); e++) {
-                Connection cEdge = cConnections.get(e);
-                map.insertEdge(cIntersection, cEdge.getTarget(), cEdge.getDistance());
+            // Verify intersection is valid
+            if(cIntersection.isValid) {
+                map.insertVertex(cIntersection);
+                // Get current connections & add edges
+                ArrayList<Connection> cConnections = cIntersection.getConnections();
+                for (int e = 0; e < cConnections.size(); e++) {
+                    Connection cEdge = cConnections.get(e);
+                    Intersection target = cEdge.getTarget();
+                    if(target.isValid)
+                        map.insertEdge(cIntersection, target, cEdge.getDistance());
+                }
             }
         }
     }
@@ -118,6 +130,7 @@ public class Backend {
         if(toToggle == null)
             throw new NoSuchElementException("Intersection with specified name does not exist");
         toToggle.isValid = !toToggle.isValid;
+        updateMap(); // Updates map clearing of invalid vertices
         return toToggle.isValid;
     }
 
