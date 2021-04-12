@@ -167,4 +167,37 @@ public class Backend {
         collection = new Path(0, intersections, points);
         return collection;
     }
+
+    /**
+     * Reports all points of interest at the intersection and within one intersection from the given intersection
+     * @param name Name of intersection
+     * @return Path object containing all points of interest
+     */
+    public Path getPoints(String name) {
+        Path collection = null; // Path object to hold data
+        ArrayList<String> poi = new ArrayList<>();
+        // Find intersection by name
+        intersections.forEach((c) -> {
+            if(c.getName().equalsIgnoreCase(name)) {
+                ArrayList<String> cPoints = c.getPointOfInterests();
+                // Add current points to arraylist
+                for(int i = 0; i < cPoints.size(); i++) {
+                    poi.add(cPoints.get(i));
+                }
+                // Find all connections
+                ArrayList<Connection> connections = c.getConnections();
+                connections.forEach((e) -> {
+                    // Add each targets points of interest
+                    Intersection target = e.getTarget();
+                    ArrayList<String> targetPoints = target.getPointOfInterests();
+                    for(int t = 0; t < targetPoints.size(); t++) {
+                        poi.add(targetPoints.get(t));
+                    }
+                });
+            }
+        });
+        // Initialize path object and return
+        collection = new Path(0, null, poi);
+        return collection;
+    }
 }
