@@ -1,3 +1,12 @@
+// --== CS400 File Header Information ==--
+// Name: Nijae King
+// Email: nrking@wisc.edu
+// Team: Purple
+// Role: Backend
+// TA: Mu Cai
+// Lecturer: Florian
+// Notes to Grader: n/a
+
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
@@ -200,4 +209,16 @@ public class Backend {
         collection = new Path(0, null, poi);
         return collection;
     }
+
+    /**
+     * Protected method, implemented for testing purposes
+     * @return map private field
+     */
+    protected CS400Graph<Intersection> getMap() { return map; }
+
+    /**
+     * Protected method, implemented for testing purposes
+     * @return intersections private field
+     */
+    protected ArrayList<Intersection> getIntersections() { return intersections; }
 }
