@@ -38,12 +38,26 @@ public class Backend {
             // Verify intersection is valid
             if(cIntersection.isValid) {
                 map.insertVertex(cIntersection);
+            }
+        }
+        addEdges();
+    }
+
+    /**
+     * Private helper method. addEdges must be called after all vertices are already added. Otherwise edges will be
+     * created with null targets creating errors.
+     */
+    private void addEdges() {
+        for(int i = 0; i < intersections.size(); i++) {
+            Intersection cIntersection = intersections.get(i);
+            // Verify intersection is valid
+            if(cIntersection.isValid) {
                 // Get current connections & add edges
                 ArrayList<Connection> cConnections = cIntersection.getConnections();
                 for (int e = 0; e < cConnections.size(); e++) {
                     Connection cEdge = cConnections.get(e);
                     Intersection target = cEdge.getTarget();
-                    if(target.isValid)
+                    if (target != null && target.isValid)
                         map.insertEdge(cIntersection, target, cEdge.getDistance());
                 }
             }
