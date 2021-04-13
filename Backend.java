@@ -9,6 +9,7 @@
 
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * This backend class represents this project's backend. It takes data from within the data wrangler and store it within
@@ -88,7 +89,8 @@ public class Backend {
             Intersection cIntersection = intersections.get(i);
             if(cIntersection.getName().equalsIgnoreCase(start)) { // If intersection matches start string
                 startVertex = cIntersection;
-            } else if(cIntersection.getName().equalsIgnoreCase(end)) { // If intersection matches end string
+            }
+            if(cIntersection.getName().equalsIgnoreCase(end)) { // If intersection matches end string
                 endVertex = cIntersection;
             }
         }
@@ -185,9 +187,11 @@ public class Backend {
     public Path getPoints(String name) {
         Path collection = null; // Path object to hold data
         ArrayList<String> poi = new ArrayList<>();
+        AtomicReference<Boolean> found = new AtomicReference<>(false);
         // Find intersection by name
         intersections.forEach((c) -> {
             if(c.getName().equalsIgnoreCase(name)) {
+                found.set(true);
                 ArrayList<String> cPoints = c.getPointOfInterests();
                 // Add current points to arraylist
                 for(int i = 0; i < cPoints.size(); i++) {
@@ -205,6 +209,8 @@ public class Backend {
                 });
             }
         });
+        if(found.get() == false)
+            throw new NoSuchElementException("Intersection was not found");
         // Initialize path object and return
         collection = new Path(0, null, poi);
         return collection;
