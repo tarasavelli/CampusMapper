@@ -158,7 +158,7 @@ public class Frontend {
 			Path route = back.getRoute(start, end);
 			System.out.print("The Shortest Path: ");
 			printPathsIntersection(route);
-			System.out.println("The Distance: " + route.getDistance());
+			System.out.println("The Distance: " + route.getDistance() + "ft");
 		} catch(NoSuchElementException nsee) {
 			System.out.println(nsee.getMessage());
 		}
@@ -211,10 +211,14 @@ public class Frontend {
 		String second = inputValidation(console);
 		try {
 			ArrayList <Path> paths = back.getRoute(start, first, second);
-			System.out.println("Starting Point to Stop Over: ");
+			System.out.print("Starting Point to Stop Over: ");
 			printPathsIntersection(paths.get(0));
-			System.out.println("Stop Over to Ending Point: ");
+			System.out.println("The Distance from Starting Point to Stop Over: " + paths.get(0).getDistance() + "ft");
+			System.out.print("Stop Over to Ending Point: ");
 			printPathsIntersection(paths.get(1));
+			System.out.println("The Distance from Stop Over to Ending Point: " + paths.get(1).getDistance() + "ft");
+			int total = paths.get(0).getDistance() + paths.get(1).getDistance();
+			System.out.println("Total Distance: " + total + "ft");
 		} catch(NoSuchElementException nsee) {
 			System.out.println(nsee.getMessage());
 		}
