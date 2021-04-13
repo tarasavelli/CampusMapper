@@ -1,10 +1,10 @@
 FrontEndDeveloper README for Project Three (CS400 @ UW Madison)
 ========================================================
 
-Name of FrontEndDeveloper: <enter your complete name here>
-@wisc.edu Email of FrontEndDeveloper: <enter your @wisc.edu email address here>
-Group: <enter your two letter group name here>
-Team: <enter your team color: red, blue, or purple, here>
+Name of FrontEndDeveloper: Yash Agrawal
+@wisc.edu Email of FrontEndDeveloper: yagrawal3@wisc.edu
+Group: AB
+Team: Red
 
 Files Written by Me:
 --------------------
