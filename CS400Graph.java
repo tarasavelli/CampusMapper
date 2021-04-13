@@ -311,6 +311,7 @@ public class CS400Graph<T> implements GraphADT<T> {
      */
     protected Path dijkstrasShortestPath(T start, T end) {
       
+      // If the graph doesnt contain the start or the end, no path is possible
       if(!this.vertices.containsKey(start) || !this.vertices.containsKey(end))
         throw new NoSuchElementException();
         
@@ -326,6 +327,7 @@ public class CS400Graph<T> implements GraphADT<T> {
       Path startPath = new Path(this.vertices.get(start));
       orderedPaths.add(startPath);
       
+      // standard Djikstra's loop.
       while(!orderedPaths.isEmpty()) {
         
         Path current = orderedPaths.remove();
@@ -346,6 +348,7 @@ public class CS400Graph<T> implements GraphADT<T> {
         }
       }
       
+      // if the shortest paths doesnt contain the end node, this means the end is unreachable, no path is possible
       if(!shortestPaths.containsKey(end))
         throw new NoSuchElementException();
       
