@@ -2,8 +2,9 @@
 // Name: Teddy Arasavelli
 // Email: arasavelli@wisc.edu
 // Team: AB
+// Role: Integration Manager
 // TA: Mu Cai
-// Lecturer: Florian Heimerl
+// Lecturer: Florain Heimerl
 // Notes to Grader: N/A
 
 import org.junit.jupiter.api.Test;
