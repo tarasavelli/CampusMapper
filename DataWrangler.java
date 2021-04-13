@@ -31,8 +31,8 @@ public class DataWrangler {
   private static ArrayList<Intersection> intersections;
 
   /**
-   * Default constructor that initializes all DataWrangler fields by calling two other functions,
-   * initializeIntersections() and initializeConnections().
+   * Default constructor that initializes the intersections field and populates it by calling two
+   * other functions, initializeIntersections() and initializeConnections().
    */
   public DataWrangler() {
     intersections = new ArrayList<Intersection>();
@@ -92,13 +92,13 @@ public class DataWrangler {
         for (Intersection intersection : intersections) {
           if (intersection.getName().equals(currentIntersection)) {
             currentIntersectionObj = intersection;
+            break;
           }
         }
 
         for (int i = 0; i < line.length; i++) {
           if (!line[i].isBlank()) {
             currentIntersectionObj.addConnection(intersections.get(i), Integer.parseInt(line[i]));
-
           }
         }
       }
