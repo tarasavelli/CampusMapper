@@ -1,3 +1,12 @@
+// --== CS400 File Header Information ==--
+// Name: Anthony Reis
+// Email: atreis@wisc.edu
+// Team: Red
+// Role: Data Wrangler
+// TA: Mu Cai
+// Lecturer: Gary Dahl
+// Notes to Grader: N/A
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import static org.junit.Assert.assertEquals;
@@ -8,8 +17,6 @@ import java.util.ArrayList;
 
 public class TestDataWrangler {
   private DataWrangler data;
-
-
 
   @BeforeEach
   public void instantiateDataWrangler() {
