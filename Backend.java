@@ -7,9 +7,9 @@
 // Lecturer: Florian
 // Notes to Grader: n/a
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
-import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * This backend class represents this project's backend. It takes data from within the data wrangler and store it within
@@ -20,7 +20,6 @@ import java.util.concurrent.atomic.AtomicReference;
  */
 public class Backend {
     // Private Static Fields; used statically throughout class
-    private static DataWrangler data; // Gets data wrangler object
     private static ArrayList<Intersection> intersections; // Gets intersections from data wrangler
     private static CS400Graph<Intersection> map; // Gets graph of intersections
 
@@ -30,8 +29,11 @@ public class Backend {
      */
     public Backend() {
         // Initialize private fields
-        data = new DataWrangler();
-        intersections = data.getAllIntersections();
+        try {
+            intersections = DataReader.readData();
+        } catch (FileNotFoundException e) {
+            System.out.println(e.getMessage());
+        }
         updateMap(); // Initialize and load data into map
     }
 
@@ -46,7 +48,7 @@ public class Backend {
             // Insert intersection as vertex
             Intersection cIntersection = intersections.get(i);
             // Verify intersection is valid
-            if(cIntersection.isValid) {
+            if(cIntersection.isVisitable) {
                 map.insertVertex(cIntersection);
             }
         }
@@ -61,13 +63,13 @@ public class Backend {
         for(int i = 0; i < intersections.size(); i++) {
             Intersection cIntersection = intersections.get(i);
             // Verify intersection is valid
-            if(cIntersection.isValid) {
+            if(cIntersection.isVisitable) {
                 // Get current connections & add edges
                 ArrayList<Connection> cConnections = cIntersection.getConnections();
                 for (int e = 0; e < cConnections.size(); e++) {
                     Connection cEdge = cConnections.get(e);
-                    Intersection target = cEdge.getTarget();
-                    if (target != null && target.isValid)
+                    Intersection target = cEdge.getTarget(intersections);
+                    if (target != null && target.isVisitable)
                         map.insertEdge(cIntersection, target, cEdge.getDistance());
                 }
             }
@@ -87,10 +89,10 @@ public class Backend {
         // Find intersections from name
         for (int i = 0; i < intersections.size(); i++) {
             Intersection cIntersection = intersections.get(i);
-            if(cIntersection.getName().equalsIgnoreCase(start) && cIntersection.isValid == false) { // If intersection matches start string
+            if(cIntersection.getName().equalsIgnoreCase(start) && cIntersection.isVisitable == true) { // If intersection matches start string
                 startVertex = cIntersection;
             }
-            if(cIntersection.getName().equalsIgnoreCase(end)  && cIntersection.isValid == false) { // If intersection matches end string
+            if(cIntersection.getName().equalsIgnoreCase(end)  && cIntersection.isVisitable == true) { // If intersection matches end string
                 endVertex = cIntersection;
             }
         }
@@ -106,7 +108,7 @@ public class Backend {
         ArrayList<String> points = new ArrayList<>();
         // Get points of interest
         for(int i = 0; i < path.size(); i++) {
-            ArrayList<String> cPoints = path.get(i).getPointOfInterests();
+            ArrayList<String> cPoints = path.get(i).getPoi();
             for(int p = 0; p < cPoints.size(); p++) {
                 points.add(cPoints.get(p));
             }
@@ -154,9 +156,9 @@ public class Backend {
         // If not found, throw error
         if(toToggle == null)
             throw new NoSuchElementException("Intersection with specified name does not exist");
-        toToggle.isValid = !toToggle.isValid;
+        toToggle.isVisitable = !toToggle.isVisitable;
         updateMap(); // Updates map clearing of invalid vertices
-        return toToggle.isValid;
+        return toToggle.isVisitable;
     }
 
     /**
@@ -171,7 +173,7 @@ public class Backend {
         for(int i = 0; i < intersections.size(); i++) {
             // Iterate through each intersections points of interest
             Intersection cIntersection = intersections.get(i);
-            ArrayList<String> cPoints = cIntersection.getPointOfInterests();
+            ArrayList<String> cPoints = cIntersection.getPoi();
             for(int p = 0; p < cPoints.size(); p++)
                 points.add(cPoints.get(p));
         }
@@ -187,12 +189,10 @@ public class Backend {
     public Path getPoints(String name) {
         Path collection = null; // Path object to hold data
         ArrayList<String> poi = new ArrayList<>();
-        AtomicReference<Boolean> found = new AtomicReference<>(false);
         // Find intersection by name
         intersections.forEach((c) -> {
             if(c.getName().equalsIgnoreCase(name)) {
-                found.set(true);
-                ArrayList<String> cPoints = c.getPointOfInterests();
+                ArrayList<String> cPoints = c.getPoi();
                 // Add current points to arraylist
                 for(int i = 0; i < cPoints.size(); i++) {
                     poi.add(cPoints.get(i));
@@ -202,15 +202,13 @@ public class Backend {
                 connections.forEach((e) -> {
                     // Add each targets points of interest
                     Intersection target = e.getTarget();
-                    ArrayList<String> targetPoints = target.getPointOfInterests();
+                    ArrayList<String> targetPoints = target.getPoi();
                     for(int t = 0; t < targetPoints.size(); t++) {
                         poi.add(targetPoints.get(t));
                     }
                 });
             }
         });
-        if(found.get() == false)
-            throw new NoSuchElementException("Intersection was not found");
         // Initialize path object and return
         collection = new Path(0, null, poi);
         return collection;
