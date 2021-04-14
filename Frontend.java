@@ -1,11 +1,11 @@
 // --== CS400 File Header Information ==--
 // Name: Yash Agrawal
 // Email: yagrawal3@wisc.edu
-// Team: red
+// Team: Red
 // Role: Frontend Developer
 // TA: Mu Cai
 // Lecturer: Gary Dahl
-// Notes to Grader: <optional extra notes>
+// Notes to Grader: Added a few method to allow ease in testing output
 
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
@@ -156,9 +156,14 @@ public class Frontend {
 		String end = inputValidation(console);
 		try {
 			Path route = back.getRoute(start, end);
-			System.out.print("The Shortest Path: ");
-			printPathsIntersection(route);
-			System.out.println("The Distance: " + route.getDistance() + "ft");
+			if(route == null) {
+				System.out.println("Path can't be computed");
+			}
+			else {
+				System.out.print("The Shortest Path: ");
+				printPathsIntersection(route);
+				System.out.println("The Distance: " + route.getDistance() + "ft");
+			}
 		} catch(NoSuchElementException nsee) {
 			System.out.println(nsee.getMessage());
 		}
@@ -211,14 +216,19 @@ public class Frontend {
 		String second = inputValidation(console);
 		try {
 			ArrayList <Path> paths = back.getRoute(start, first, second);
-			System.out.print("Starting Point to Stop Over: ");
-			printPathsIntersection(paths.get(0));
-			System.out.println("The Distance from Starting Point to Stop Over: " + paths.get(0).getDistance() + "ft");
-			System.out.print("Stop Over to Ending Point: ");
-			printPathsIntersection(paths.get(1));
-			System.out.println("The Distance from Stop Over to Ending Point: " + paths.get(1).getDistance() + "ft");
-			int total = paths.get(0).getDistance() + paths.get(1).getDistance();
-			System.out.println("Total Distance: " + total + "ft");
+			if(paths.get(0) == null || paths.get(1) == null) {
+				System.out.println("Path can't be computed");
+			}
+			else {
+				System.out.print("Starting Point to Stop Over: ");
+				printPathsIntersection(paths.get(0));
+				System.out.println("The Distance from Starting Point to Stop Over: " + paths.get(0).getDistance() + "ft");
+				System.out.print("Stop Over to Ending Point: ");
+				printPathsIntersection(paths.get(1));
+				System.out.println("The Distance from Stop Over to Ending Point: " + paths.get(1).getDistance() + "ft");
+				int total = paths.get(0).getDistance() + paths.get(1).getDistance();
+				System.out.println("Total Distance: " + total + "ft");
+			}
 		} catch(NoSuchElementException nsee) {
 			System.out.println(nsee.getMessage());
 		}
@@ -274,5 +284,93 @@ public class Frontend {
 			System.out.print(", " + path.getPath().get(i).getName());
 		}
 		System.out.println();
+	}	
+	
+	/**
+	 * Helps test if mode is being served correctly
+	 * @param in character representing the mode requested
+	 * @return String that indicates if mode is being correctly served
+	 */
+	public static String helpTestServeMode(char in) {
+		switch(in) {
+		case 'b':
+			return "Base";
+		case 'o':	
+			return "One";
+		case 'c':
+			return "Construction";
+		case 's':
+			return "Scheduler";
+		case 'p':
+			return "List";
+		case 'a':
+			return "Overview";
+		case 'x':
+			return "Exit";
+		}
+		return "Fail";
 	}
+	
+	/**
+	 * Validates the input of user to see if correct format of location name
+	 * @param console Scanner object to take in input through
+	 * @return the formatted string name of location inputed
+	 */
+	public static String helpTestInputValidation(String place) {
+		boolean correctInput = false;
+		String formattedPath = "";
+		while(!correctInput) {
+			 //  As long as location is spelled correctly and has the & symbol correctly placed input
+			 // will be taken correctly
+			if(place.matches(".*&.*")) {
+				 // Formats string for backend
+				place = place.replaceAll("\\s", "");
+				place = place.toLowerCase();
+				String[] parts = place.split("&");
+				parts[0] = parts[0].substring(0, 1).toUpperCase() + parts[0].substring(1);
+				parts[1] = parts[1].substring(0, 1).toUpperCase() + parts[1].substring(1);
+				formattedPath = parts[0] + " & " + parts[1];
+				correctInput = true;
+			}
+			else {
+				return "FAILED";
+			}
+		}
+		return formattedPath;
+	}
+	
+	/**
+	 * Helps test base modes functionality by replicating input and returning formatted string
+	 * @param start Starting point
+	 * @param end Ending point
+	 * @return String that includes output of the basemode in a formatted string
+	 */
+	public static String helpTestBaseMode(String start, String end) {
+		start = helpTestInputValidation(start);
+		end = helpTestInputValidation(end);
+		try {
+			Path route = back.getRoute(start, end);
+			if(route == null) {
+				return "Path can't be computed";
+			}
+			else {
+				return "The Shortest Path: " + helpTestPrintPathsIntersection(route);
+			}
+		} catch(NoSuchElementException nsee) {
+			return "FAIL";
+		}
+	}
+	
+	/**
+	 * Helper test method for returning the path's Intersections
+	 * @param path Path object whose intersections are to be printed
+	 * @return formatted string of the output of basemode's path
+	 */
+	private static String helpTestPrintPathsIntersection(Path path) {
+		String str = path.getPath().get(0).getName();
+		for(int i = 1; i < path.getPath().size(); i ++) {
+			str += ", " + path.getPath().get(i).getName();
+		}
+		return str;
+	}	
 }
