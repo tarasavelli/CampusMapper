@@ -87,10 +87,10 @@ public class Backend {
         // Find intersections from name
         for (int i = 0; i < intersections.size(); i++) {
             Intersection cIntersection = intersections.get(i);
-            if(cIntersection.getName().equalsIgnoreCase(start)) { // If intersection matches start string
+            if(cIntersection.getName().equalsIgnoreCase(start) && cIntersection.isValid == false) { // If intersection matches start string
                 startVertex = cIntersection;
             }
-            if(cIntersection.getName().equalsIgnoreCase(end)) { // If intersection matches end string
+            if(cIntersection.getName().equalsIgnoreCase(end)  && cIntersection.isValid == false) { // If intersection matches end string
                 endVertex = cIntersection;
             }
         }
